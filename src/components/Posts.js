@@ -50,11 +50,6 @@ class Posts extends Component{
       this.setState({modalIsOpen: true});
     }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    //this.subtitle.style.color = '#f00';
-  }
-
   closeModal() {
     this.setState({modalIsOpen: false});
   }
@@ -62,7 +57,6 @@ class Posts extends Component{
 
 
   editPostWithId(id){
-    console.log('idPassed is ', id)
     this.setState({
       editPostId:id,
       modalIsOpen:true
@@ -99,7 +93,6 @@ class Posts extends Component{
 
       <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={()=>this.afterOpenModal()}
           onRequestClose={()=>this.closeModal()}
           style={customStyles}
           contentLabel="New posts holder"
@@ -113,7 +106,14 @@ class Posts extends Component{
 
 
           {displayPosts.map((item) => (
-              <Post key={item.id} id={item.id} title={item.title} voteScore={item.voteScore} timestamp={item.timestamp} author={item.author} body={item.body} openEdit={()=>this.editPostWithId(item.id)}/>
+              <Post key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    voteScore={item.voteScore}
+                    timestamp={item.timestamp}
+                    author={item.author}
+                    body={item.body}
+                    openEdit={()=>this.editPostWithId(item.id)}/>
             ))}
       </div>
 

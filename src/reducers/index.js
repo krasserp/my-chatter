@@ -8,7 +8,9 @@ import {SET_CATEGORY,
     SET_COMMENT_VOTE,
     SORT_COMMENTS_BY,
     ADD_POST,
-    EDIT_POST
+    EDIT_POST,
+    ADD_COMMENT,
+    EDIT_COMMENT
 } from '../actions'
 
 
@@ -74,9 +76,16 @@ const initComments = {
 
 
 const comments = (state=initComments, action) => {
-    const {comments,id,voteScore} = action
+    const {comments,id,voteScore,comment} = action
+
     let newState,stateToArr,interState
     switch(action.type){
+
+        case ADD_COMMENT:
+        case EDIT_COMMENT:
+            newState = {...state}
+            newState[comment.id] = comment
+            return newState
 
         case SET_COMMENT_VOTE:
             stateToArr=[]

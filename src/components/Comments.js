@@ -33,11 +33,8 @@ class Comments extends Component{
   render(){
 
     const upDownVote = this.props.setVote
-
     const sortOrder = this.props.commentsOrder
     const comments = this.props.comments
-
-
     const commentsMapped =[]
 
     for(let c in comments){
@@ -50,8 +47,9 @@ class Comments extends Component{
     // how to sort
     let currentSortOrder = sortOrder.filter(item=>item.active)[0]
     let sortOrderStr = currentSortOrder['order']+currentSortOrder['map']
+    let editPostWithId = this.props.openEdit
 
-
+    console.log(editPostWithId, ' passed curring?')
 
     displayComments.sort(sortBy(sortOrderStr))
 
@@ -76,7 +74,7 @@ class Comments extends Component{
               <div className='post-button-info'>
                 <span className='post-score-vote-up button' onClick={()=>upDownVote(item.id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
                 <a className='post-score-vote-down button' onClick={()=>upDownVote(item.id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></a>
-                <span className='post-edit button'><TiEdit size={20}/></span>
+                <span className='post-edit button' onClick={()=>editPostWithId(item.id)}><TiEdit size={20}/></span>
               </div>
 
             </div>

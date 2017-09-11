@@ -4,7 +4,7 @@ const api = "http://localhost:5001"
 
 // unique token for posts
 
-let token = 'buxi'//localStorage.token
+let token = localStorage.token
 
 if(!token)
     token = localStorage.token = Math.random().toString(36).substr(-8)

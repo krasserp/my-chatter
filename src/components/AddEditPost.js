@@ -5,9 +5,7 @@ import sortBy from 'sort-by'
 import {capitalize} from '../utils/helpers'
 import uuidv1 from 'uuid/v1'
 
-// write actions to update a post
-//
-//
+
 
 const mapDispatchToProps = (dispatch) =>({
   fetchCats : (data) => dispatch(setCategory(data)),
@@ -17,7 +15,7 @@ const mapDispatchToProps = (dispatch) =>({
 })
 
 
-// redux mapping
+
 const mapStateToProps = ({categories, posts}) => {
   return {
     categories,
@@ -31,8 +29,9 @@ class AddEditPost extends Component{
 
     onSubmission = (event) => {
         event.preventDefault()
-        //const uuid = uuidv1
-        //
+
+        // if props postId exists it will be a update to an existing post
+        // else a new post is being created
         if(this.props.postId === undefined){
 
             let postBody = {
@@ -92,10 +91,7 @@ class AddEditPost extends Component{
 
         }
 
-
-
         selValue = postId !== undefined ? thisPost.category : categories.filter((item)=>item.active)[0].name
-        console.log('POST id is ', postId)
 
         return(
 

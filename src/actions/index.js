@@ -21,6 +21,8 @@ export const sortItemsBy = (order) => ({
 
 export const SET_COMMENTS = 'SET_COMMENTS'
 export const SET_COMMENT_VOTE = 'SET_COMMENT_VOTE'
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const EDIT_COMMENT = 'EDIT_COMMENT'
 
 export const setCommentVote = (id,voteScore) =>({
   type:SET_COMMENT_VOTE,
@@ -53,6 +55,38 @@ export const getCommentsById = (id) => dispatch => (
   )
 
 
+export const editComment = (id,comment) =>({
+  type:EDIT_COMMENT,
+  id,
+  comment
+})
+
+export const updateComment= (id,data) => dispatch =>(
+  chatApi
+    .editComment(id,data)
+    .then((data)=>{
+      dispatch(editComment(id,data))
+    })
+
+  )
+
+export const addComment = (comment) =>({
+  type:ADD_COMMENT,
+  comment
+})
+
+export const postComment = (comment) => dispatch => (
+  chatApi
+    .postComment(comment)
+    .then((data)=>{
+      console.log(data, ' comment return')
+      dispatch(addComment(data))
+    })
+
+  )
+
+
+
 export const SET_POST_VOTE = 'SET_POST_VOTE'
 export const SET_ALL_POSTS = 'SET_ALL_POSTS'
 export const ADD_POST = 'ADD_POST'
@@ -69,7 +103,6 @@ export const updatePost = (id,data) => dispatch =>(
   chatApi
     .editPost(id,data)
     .then((data)=>{
-      console.log(data, ' post return on edit init')
       dispatch(editPost(id,data))
     })
 
