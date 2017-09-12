@@ -1,4 +1,3 @@
-import axios from 'axios'
 const api = "http://localhost:5001"
 
 
@@ -96,10 +95,10 @@ export const deletePost = (id) =>
     fetch(`${api}/posts/${id}`,{
             method: 'DELETE',
             headers: postHeaders,
-            body: JSON.stringify({'id': id})
+            //body: JSON.stringify({'id': id})
             }
         )
-        .then((resp) => {console.log(resp); return resp.json()})
+        .then((resp) => {console.log(resp); })
 
 
 export const postComment = (pBody) =>
@@ -138,7 +137,7 @@ export const deleteComment = (id) =>
     fetch(`${api}/comments/${id}`,{
             method: 'DELETE',
             headers: postHeaders,
-            body: JSON.stringify({'id': id})
+            //body: JSON.stringify({'id': id})
             }
         )
-        .then((resp) => {console.log(resp); return resp.json()})
+        .then((resp) => {console.log(resp);})

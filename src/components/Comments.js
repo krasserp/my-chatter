@@ -1,16 +1,17 @@
 import React, {Component} from 'react'
-import {capitalize,formatTimeStamp} from '../utils/helpers'
-import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted,TiThumbsDown,TiThumbsUp,TiEdit,TiMessages} from 'react-icons/lib/ti'
+import {formatTimeStamp} from '../utils/helpers'
+import {TiThumbsDown,TiThumbsUp,TiEdit,TiDelete} from 'react-icons/lib/ti'
 import {connect} from 'react-redux'
 import sortBy from 'sort-by'
-import {putCommentVote} from '../actions'
+import {putCommentVote,deleteCommentId} from '../actions'
 import SortOrder from './SortOrder'
 
 
 
 const mapDispatchToProps = (dispatch) =>({
 
-  setVote: (id, vote) => dispatch(putCommentVote(id,vote))
+  setVote: (id, vote) => dispatch(putCommentVote(id,vote)),
+  deleteComment: (id) => dispatch(deleteCommentId(id))
 
 })
 
@@ -35,6 +36,7 @@ class Comments extends Component{
     const upDownVote = this.props.setVote
     const sortOrder = this.props.commentsOrder
     const comments = this.props.comments
+    const deleteComment = this.props.deleteComment
     const commentsMapped =[]
 
     for(let c in comments){
@@ -42,14 +44,12 @@ class Comments extends Component{
     }
 
 
-    let displayComments = commentsMapped.filter(item => item.parentId === this.props.postId)
+    let displayComments = commentsMapped.filter(item => item.parentId === this.props.postId && !item.deleted)
 
     // how to sort
     let currentSortOrder = sortOrder.filter(item=>item.active)[0]
     let sortOrderStr = currentSortOrder['order']+currentSortOrder['map']
     let editPostWithId = this.props.openEdit
-
-    console.log(editPostWithId, ' passed curring?')
 
     displayComments.sort(sortBy(sortOrderStr))
 
@@ -73,10 +73,10 @@ class Comments extends Component{
 
               <div className='post-button-info'>
                 <span className='post-score-vote-up button' onClick={()=>upDownVote(item.id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
-                <a className='post-score-vote-down button' onClick={()=>upDownVote(item.id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></a>
+                <span className='post-score-vote-down button' onClick={()=>upDownVote(item.id,{option:'downVote'})} alt="Edit" title="edit"><TiThumbsDown size={20}/></span>
                 <span className='post-edit button' onClick={()=>editPostWithId(item.id)}><TiEdit size={20}/></span>
               </div>
-
+              <span className='comment-delete button' onClick={()=>deleteComment(item.id)}><TiDelete size={17}/></span>
             </div>
             ))}
       </div>

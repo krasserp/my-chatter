@@ -1,17 +1,16 @@
 import React, {Component} from 'react'
 import {formatTimeStamp} from '../utils/helpers'
-import {TiThumbsDown,TiThumbsUp,TiEdit,TiMessages} from 'react-icons/lib/ti'
-import {putPostVote} from '../actions'
+import {TiThumbsDown,TiThumbsUp,TiEdit,TiMessages,TiDelete} from 'react-icons/lib/ti'
+import {putPostVote,deletePostId} from '../actions'
 import {connect} from 'react-redux'
 import Comments from './Comments'
 import AddEditComment from './AddEditComment'
-
-
-
-
-
-
 import Modal from 'react-modal'
+
+
+
+
+
 const customStyles = {
   content : {
     top                   : '50%',
@@ -31,15 +30,14 @@ const customStyles = {
 
 const mapDispatchToProps = (dispatch) =>({
 
-  setVote: (id, vote) => dispatch(putPostVote(id,vote))
+  setVote: (id, vote) => dispatch(putPostVote(id,vote)),
+  deletePost: (id) => dispatch(deletePostId(id))
 
 })
 
 
-// redux mapping
+
 const mapStateToProps = ({comments}) => {
-
-
 
   return {
     comments
@@ -85,7 +83,6 @@ class Post extends Component{
     editCommentWithId(postId){
 
       return (id) => {
-          console.log('commentIdPassed is ', id, 'for Post Id', postId)
           this.setState({
             editCommentId:id,
             parentId:postId,
@@ -102,7 +99,7 @@ class Post extends Component{
   render(){
         const {id, title, voteScore, timestamp,author,comments,body} = this.props
         const upDownVote = this.props.setVote
-
+        const deletePost = this.props.deletePost
         const editPost = this.props.openEdit
 
         let commentsCount = {}
@@ -129,7 +126,7 @@ class Post extends Component{
                   closeModal={()=>this.closeModal()}
                    />
 
-              </Modal>
+            </Modal>
 
 
 
@@ -147,11 +144,12 @@ class Post extends Component{
 
               <div className='post-button-info'>
                 <span className='post-score-vote-up button' onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
-                <a className='post-score-vote-down button' onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></a>
+                <span className='post-score-vote-down button' onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></span>
                 <span className='post-edit button'onClick={()=>editPost()}><TiEdit size={20}/></span>
                 <span className='post-comment button' onClick={()=>this.openModal(id)}>Comment</span>
               </div>
               {commentsCount[id] > 0 && this.state.showComments &&  <Comments postId={id} openEdit={this.editCommentWithId(id)} />}
+              <span className='post-delete button' onClick={()=>deletePost(id)}><TiDelete size={20}/></span>
             </div>
             )
     }

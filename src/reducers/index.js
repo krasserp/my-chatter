@@ -10,15 +10,17 @@ import {SET_CATEGORY,
     ADD_POST,
     EDIT_POST,
     ADD_COMMENT,
-    EDIT_COMMENT
+    EDIT_COMMENT,
+    DELETE_POST,
+    DELETE_COMMENT
 } from '../actions'
 
 
 
 const initSortOrder = [
 
-    {map: 'timestamp', active: true, order: ''},
-    {map: 'voteScore', active: false, order: ''}
+    {map: 'timestamp', active: false, order: ''},
+    {map: 'voteScore', active: true, order: '-'}
 
 ]
 
@@ -38,7 +40,7 @@ const sortOrder = (state=initSortOrder, action) => {
 const initCommentsOrder = [
 
     {map: 'timestamp', active: false, order: ''},
-    {map: 'voteScore', active: true, order: ''}
+    {map: 'voteScore', active: true, order: '-'}
 
 ]
 
@@ -72,13 +74,10 @@ const initComments = {
 
 
 
-
-
-
 const comments = (state=initComments, action) => {
     const {comments,id,voteScore,comment} = action
 
-    let newState,stateToArr,interState
+    let newState,stateToArr
     switch(action.type){
 
         case ADD_COMMENT:
@@ -94,7 +93,7 @@ const comments = (state=initComments, action) => {
                 stateToArr.push(state[c])
             }
 
-            interState = stateToArr.map((item)=>{
+            stateToArr.map((item)=>{
                 if(item.id === id){
                     item.voteScore = voteScore
                 }
@@ -113,6 +112,13 @@ const comments = (state=initComments, action) => {
 
             return newState
 
+        case DELETE_COMMENT:
+
+            newState = {...state}
+            newState[id]['deleted'] = true
+
+
+            return newState
 
 
         default:
@@ -168,6 +174,15 @@ const posts = (state=initPosts, action) => {
 
             return newState
 
+        case DELETE_POST:
+            newState = state.map((item)=>{
+                if(item.id === id){
+                    item.deleted = true
+                }
+                return item
+            })
+
+            return newState
 
         default:
             return state

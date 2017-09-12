@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted,TiThumbsDown,TiThumbsUp,TiEdit,TiMessages} from 'react-icons/lib/ti'
 import CategoriesNav from './CategoriesNav'
 import Posts from './Posts'
 import SortOrder from './SortOrder'
@@ -65,10 +64,6 @@ class App extends Component {
       this.setState({modalIsOpen: true});
     }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    //this.subtitle.style.color = '#f00';
-  }
 
   closeModal() {
     this.setState({modalIsOpen: false});
@@ -93,7 +88,6 @@ class App extends Component {
 
       <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={()=>this.afterOpenModal()}
           onRequestClose={()=>this.closeModal()}
           style={customStyles}
           contentLabel="New posts holder"

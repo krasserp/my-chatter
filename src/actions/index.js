@@ -23,6 +23,24 @@ export const SET_COMMENTS = 'SET_COMMENTS'
 export const SET_COMMENT_VOTE = 'SET_COMMENT_VOTE'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
+export const DELETE_COMMENT = 'DELETE_COMMENT'
+
+
+export const deleteComment = (id) =>({
+  type:DELETE_COMMENT,
+  id
+})
+
+export const deleteCommentId = (id) => dispatch =>(
+  chatApi
+    .deleteComment(id)
+    .then(()=>{
+      dispatch(deleteComment(id))
+    })
+
+  )
+
+
 
 export const setCommentVote = (id,voteScore) =>({
   type:SET_COMMENT_VOTE,
@@ -91,6 +109,22 @@ export const SET_POST_VOTE = 'SET_POST_VOTE'
 export const SET_ALL_POSTS = 'SET_ALL_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
+export const DELETE_POST = 'DELETE_POST'
+
+
+export const deletePost = (id) =>({
+  type:DELETE_POST,
+  id
+})
+
+export const deletePostId = (id) => dispatch =>(
+  chatApi
+    .deletePost(id)
+    .then(()=>{
+      dispatch(deletePost(id))
+    })
+
+  )
 
 
 export const editPost = (id,post) =>({

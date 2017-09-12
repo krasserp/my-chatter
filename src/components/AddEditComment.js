@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {postComment,updateComment} from '../actions'
-import {capitalize} from '../utils/helpers'
 import uuidv1 from 'uuid/v1'
 
 
@@ -70,7 +69,7 @@ class AddEditComment extends Component{
 
     render(){
 
-        let {comments,parentId,commentId}  = this.props
+        let {comments,commentId}  = this.props
         let thisComment
 
 

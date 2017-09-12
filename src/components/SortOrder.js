@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted,TiThumbsDown,TiThumbsUp,TiEdit,TiMessages} from 'react-icons/lib/ti'
+import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted} from 'react-icons/lib/ti'
 import {connect} from 'react-redux'
 import {sortItemsBy,sortCommentsBy} from '../actions'
 

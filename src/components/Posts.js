@@ -77,7 +77,7 @@ class Posts extends Component{
     let showCat = categories.filter( item => item.active )[0].name
 
 
-    let displayPosts = showCat ==='all' ? posts : posts.filter(item => item.category === showCat)
+    let displayPosts = showCat ==='all' ? posts.filter(item => !item.deleted ) : posts.filter(item => (item.category === showCat && !item.deleted))
 
     // how to sort
     let currentSortOrder = sortOrder.filter(item=>item.active)[0]
