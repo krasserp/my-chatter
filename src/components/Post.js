@@ -117,10 +117,10 @@ class Post extends Component{
     const scrollToElement = require('scroll-to-element');
     if(this.props.goto !== false){
       let postId = document.querySelector('#id_'+this.props.goto)
-      let t = setTimeout(()=>{
+      setTimeout(()=>{
           scrollToElement(postId)
           postId.className += ' item-highlight'
-          let x = setTimeout(()=>{
+          setTimeout(()=>{
             postId.className = postId.className.split(' ').filter((item)=> (item !== 'item-highlight'))
           },2000)
         },500)

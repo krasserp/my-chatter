@@ -72,10 +72,8 @@ class App extends Component {
 
     let urlCat = props.match.params.cat || 'all'
 
-    console.log(urlCat, ' url and urlPostId')
     this.props.categories.map((cat)=>{
       if(urlCat === cat.path && !cat.active){
-        //console.log('need to update cat from url init');
         this.props.fetchCats(urlCat)
       }
       return true
@@ -87,21 +85,14 @@ class App extends Component {
 
   componentWillMount(){
     this.checkUrlParams(this.props)
-    console.log('from will mount', this.state)
-
   }
 
   componentWillReceiveProps(nextProps){
     this.checkUrlParams(nextProps)
-    console.log('from receives props',this.state)
   }
 
 
   render() {
-
-
-
-    console.log('app render and post path should be ', this.props.match.params.postId , ' but did not translate into ', this.state, ' ?')
 
 
     this.props.posts.forEach((el)=> {
