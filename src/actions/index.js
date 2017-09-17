@@ -225,7 +225,8 @@ export const fetchCategory = () => dispatch => (
                       return item
                   })
 
-                  fetchedInitalState.push({name:'all', path:'all',active:true});
+                  fetchedInitalState.push({name:'all', path:'all',active:true})
+                  console.log('only now adding to the initialState here for cats,...')
                   dispatch(updateCategory(fetchedInitalState))
                 }
 

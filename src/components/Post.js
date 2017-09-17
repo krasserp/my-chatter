@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {formatTimeStamp} from '../utils/helpers'
 import {TiThumbsDown,TiThumbsUp,TiEdit,TiMessages,TiDelete} from 'react-icons/lib/ti'
+import {FaShareAlt} from 'react-icons/lib/fa'
 import {putPostVote,deletePostId} from '../actions'
 import {connect} from 'react-redux'
 import Comments from './Comments'
@@ -51,7 +52,8 @@ class Post extends Component{
         showComments : true,
         modalIsOpen: false,
         editCommentId: null,
-        parentId: null
+        parentId: null,
+        shareLink: false
     }
 
 
@@ -66,11 +68,25 @@ class Post extends Component{
     }
 
 
-    openModal(postId) {
-      this.setState({
-        modalIsOpen: true,
-        parentId: postId
-      });
+    openModal(postId,shareLink=false) {
+
+      if(!shareLink){
+        this.setState({
+          shareLink: false,
+          modalIsOpen: true,
+          parentId: postId
+        })
+      } else if(shareLink){
+
+        let currentRouteName =  window.location.origin
+       // console.log(currentRouteName, 'current route name?')
+
+        this.setState({
+          modalIsOpen: true,
+          shareLink: currentRouteName+'/'+shareLink
+        })
+
+      }
     }
 
     closeModal() {
@@ -95,9 +111,27 @@ class Post extends Component{
     }
 
 
+  componentDidMount(){
+
+
+    const scrollToElement = require('scroll-to-element');
+    if(this.props.goto !== false){
+      let postId = document.querySelector('#id_'+this.props.goto)
+      let t = setTimeout(()=>{
+          scrollToElement(postId)
+          postId.className += ' item-highlight'
+          let x = setTimeout(()=>{
+            postId.className = postId.className.split(' ').filter((item)=> (item !== 'item-highlight'))
+          },2000)
+        },500)
+    }
+
+  }
+
+
 
   render(){
-        const {id, title, voteScore, timestamp,author,comments,body} = this.props
+        const {id, title, voteScore, timestamp,author,comments,body,category} = this.props
         const upDownVote = this.props.setVote
         const deletePost = this.props.deletePost
         const editPost = this.props.openEdit
@@ -105,13 +139,14 @@ class Post extends Component{
         let commentsCount = {}
 
         for (let c in comments){
-          let checkId = comments[c].parentId
+          // only count a comment if it wasn't deleted
+          let checkId = !comments[c].deleted ? comments[c].parentId : 0
           commentsCount[checkId] = commentsCount[checkId] ? commentsCount[checkId] + 1: 1
         }
 
     return(
 
-            <div className='post' key={id}>
+            <div className='post' key={id} id={'id_'+id}>
 
             <Modal
                 isOpen={this.state.modalIsOpen}
@@ -120,11 +155,20 @@ class Post extends Component{
                 contentLabel="New/Edit comment modal"
               >
 
-                <AddEditComment
+                {!this.state.shareLink ?
+
+                  <AddEditComment
                   commentId={this.state.editCommentId}
                   parentId={this.state.parentId}
                   closeModal={()=>this.closeModal()}
                    />
+                :
+                  <div>
+                  Copy the link below to share this post:<br/>
+                  {this.state.shareLink}
+                  </div>
+
+              }
 
             </Modal>
 
@@ -136,6 +180,7 @@ class Post extends Component{
                 <span className='post-date'>{formatTimeStamp(timestamp)}</span>
                 <span className="post-comments button" onClick={()=>this.showHide()}>{commentsCount[id] ? commentsCount[id]: 0 } <TiMessages size={15}/></span>
                 <span className='post-author'>{author}</span>
+                <span className='post-share button' onClick={()=>this.openModal(id, category+'/'+id)}> <FaShareAlt size={20} /></span>
               </div>
 
               <div className='post-details'>

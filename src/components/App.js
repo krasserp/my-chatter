@@ -3,9 +3,8 @@ import CategoriesNav from './CategoriesNav'
 import Posts from './Posts'
 import SortOrder from './SortOrder'
 import sortBy from 'sort-by'
-import {setCategory,fetchCategory, getCommentsById} from '../actions'
+import {setCategory, getCommentsById} from '../actions'
 import {connect} from 'react-redux'
-
 
 
 
@@ -31,7 +30,6 @@ const customStyles = {
 
 const mapDispatchToProps = (dispatch) =>({
   fetchCats : (data) => dispatch(setCategory(data)),
-  setServerCats: (data) => dispatch(fetchCategory(data)),
   fetchComments: (id ) => dispatch(getCommentsById(id)),
 
 })
@@ -69,8 +67,41 @@ class App extends Component {
     this.setState({modalIsOpen: false});
   }
 
+
+  checkUrlParams = (props) => {
+
+    let urlCat = props.match.params.cat || 'all'
+
+    console.log(urlCat, ' url and urlPostId')
+    this.props.categories.map((cat)=>{
+      if(urlCat === cat.path && !cat.active){
+        //console.log('need to update cat from url init');
+        this.props.fetchCats(urlCat)
+      }
+      return true
+    })
+
+
+  }
+
+
+  componentWillMount(){
+    this.checkUrlParams(this.props)
+    console.log('from will mount', this.state)
+
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.checkUrlParams(nextProps)
+    console.log('from receives props',this.state)
+  }
+
+
   render() {
 
+
+
+    console.log('app render and post path should be ', this.props.match.params.postId , ' but did not translate into ', this.state, ' ?')
 
 
     this.props.posts.forEach((el)=> {
@@ -104,7 +135,7 @@ class App extends Component {
 
         <div className='nav-item'>
           <span>Categories</span>
-          <CategoriesNav categories={categories} onSelect={(cat)=>this.onSelect(cat)} />
+          <CategoriesNav categories={categories} />
         </div>
 
           <SortOrder title="Sort posts by" type="posts" />
@@ -119,7 +150,7 @@ class App extends Component {
 
         <div className='post-list'>
 
-          <Posts/>
+          <Posts goto={this.props.match.params.postId} />
 
         </div>
 
@@ -130,7 +161,7 @@ class App extends Component {
 
 
 
-    );
+    )
   }
 }
 

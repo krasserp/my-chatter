@@ -1,15 +1,15 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {setCategory,fetchCategory,postPost,updatePost} from '../actions'
+import {setCategory,postPost,updatePost} from '../actions'
 import sortBy from 'sort-by'
 import {capitalize} from '../utils/helpers'
 import uuidv1 from 'uuid/v1'
+import {Route} from 'react-router-dom'
 
 
 
 const mapDispatchToProps = (dispatch) =>({
   fetchCats : (data) => dispatch(setCategory(data)),
-  setServerCats: (data) => dispatch(fetchCategory(data)),
   putPost: (data) => dispatch(postPost(data)),
   updatePost: (id,data) => dispatch(updatePost(id,data))
 })
@@ -102,10 +102,13 @@ class AddEditPost extends Component{
 
                 <div className='categories'>
                     Set a category:<br/>
+
+
+                <Route render={({ history}) => (
                     <select name="category"
                         value={selValue}
                         ref={select => this.category = select}
-                        onChange={()=>this.onSelect()}
+                        onChange={()=>{history.push(this.category.value)}}
                         disabled={postId!==undefined}
                         >
 
@@ -117,6 +120,7 @@ class AddEditPost extends Component{
 
 
                     </select>
+                )} />
 
                 </div>
 

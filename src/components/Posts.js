@@ -42,7 +42,7 @@ class Posts extends Component{
 
   state={
       modalIsOpen: false,
-      editPostId : null
+      editPostId : null,
     }
 
 
@@ -67,7 +67,6 @@ class Posts extends Component{
 
 
 
-
   render(){
 
 
@@ -82,6 +81,7 @@ class Posts extends Component{
     // how to sort
     let currentSortOrder = sortOrder.filter(item=>item.active)[0]
     let sortOrderStr = currentSortOrder['order']+currentSortOrder['map']
+
 
     displayPosts.sort(sortBy(sortOrderStr))
 
@@ -113,8 +113,12 @@ class Posts extends Component{
                     timestamp={item.timestamp}
                     author={item.author}
                     body={item.body}
+                    category={item.category}
+                    goto ={this.props.goto === item.id ?this.props.goto : false }
                     openEdit={()=>this.editPostWithId(item.id)}/>
             ))}
+
+
       </div>
 
       )
