@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "material-ui": "^0.19.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-icons": "^2.2.5",
@@ -15,6 +16,7 @@
     "redux-thunk": "^2.2.0",
     "scroll-to-element": "^2.0.0",
     "sort-by": "^1.2.0",
+    "typeface-roboto": "0.0.35",
     "unix-timestamp": "^0.2.0",
     "uuid": "^3.1.0"
   },

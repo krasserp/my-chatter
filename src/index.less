@@ -2,8 +2,10 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
+@border-radius : 0.1rem;
 
 a{
     text-decoration: none;
@@ -12,6 +14,24 @@ a{
         color:#fff;
     }
 
+}
+
+// now using material-ui
+
+.action-button{
+    margin-right:0.2rem;
+}
+
+.small-btn{
+    max-width: 30px;
+    min-width: 30px;
+    width:30px;
+    margin-right:0.2rem;
+}
+
+.flat-button{
+    border: 1px dotted #202020;
+    text-decoration: underline;
 }
 
 .post-link{
@@ -40,6 +60,12 @@ nav{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
+
+    .active{
+            background-color:yellow;
+
+        }
 
     ul.categories, ul.order-by{
         list-style: none;
@@ -106,9 +132,9 @@ nav{
 
 .post{
     background-color:#f0f6fb;
-    margin:1rem;
+    margin-top:1rem;
     padding:0.5rem;
-    border-radius:0.4rem;
+    border-radius:@border-radius;
     display:flex;
     flex-direction:column;
 
@@ -192,18 +218,6 @@ nav{
 }
 
 
-@keyframes pulse {
-      0% {border-color: #ff0;}
-     50% {border-color: #202020;}
-     100% {border-color: #ff0;}
-}
-
-.item-highlight {
-     border:1px solid;
-     border-color: #fff;
-     animation: pulse 1s infinite alternate;
-
-}
 
 // modal
 
@@ -225,8 +239,9 @@ nav{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: transparent; //#202020;
-    //opacity:0.95;
+    background-color: #202020;
+    opacity:0.97;
+    z-index: 9;
   }
 
 

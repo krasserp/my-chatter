@@ -9,7 +9,17 @@ import {connect} from 'react-redux'
 import PostDetail from './PostDetail'
 import AddEditPost from './AddEditPost'
 import Modal from 'react-modal'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import RaisedButton from 'material-ui/RaisedButton'
 
+
+const muiTheme = getMuiTheme({
+    palette: {
+        accent1Color: 'rgb(0, 0, 0)',
+        secondary2color: 'rgb(0, 84, 129)'
+    }
+});
 
 const mapStateToProps = ({categories, posts}) => {
   return {
@@ -90,7 +100,7 @@ class App extends Component {
     let categories = this.props.categories.sort(sortBy('name'))
 
     return (
-
+      <MuiThemeProvider muiTheme={muiTheme}>
       <div className='chatter-app'>
 
         <Modal
@@ -117,7 +127,7 @@ class App extends Component {
           <SortOrder title="Sort posts by" type="posts" />
 
           <div className='nav-item'>
-            <button className='new-post-btn button' onClick={()=>this.createNewPost()}>Add new post</button>
+            <RaisedButton label="Add new post" onClick={()=>this.createNewPost()} />
           </div>
 
         </nav>
@@ -145,7 +155,7 @@ class App extends Component {
         </div>
 
       </div>
-
+      </MuiThemeProvider>
     )
   }
 }

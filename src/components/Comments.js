@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import sortBy from 'sort-by'
 import {putCommentVote,deleteCommentId} from '../actions/comments'
 import SortOrder from './SortOrder'
+import RaisedButton from 'material-ui/RaisedButton'
 
 
 
@@ -48,7 +49,7 @@ class Comments extends Component{
     return(
 
       <div className='comments'>
-      <SortOrder title="Sort comments by" type="comments" />
+      {displayComments.length > 1 && <SortOrder title="Sort comments by" type="comments" />}
           {displayComments.map((item) => (
             <div className='post comments' key={item.id}>
 
@@ -63,11 +64,11 @@ class Comments extends Component{
               </div>
 
               <div className='post-button-info'>
-                <span className='post-score-vote-up button' onClick={()=>upDownVote(item.id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
-                <span className='post-score-vote-down button' onClick={()=>upDownVote(item.id,{option:'downVote'})} alt="Edit" title="edit"><TiThumbsDown size={20}/></span>
-                <span className='post-edit button' onClick={()=>editPostWithId(item.id)}><TiEdit size={20}/></span>
+                <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(item.id,{option:'upVote'})}><TiThumbsUp size={20}/></RaisedButton>
+                <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(item.id,{option:'downVote'})} alt="Edit" title="edit"><TiThumbsDown size={20}/></RaisedButton>
+                {this.props.enableEdit && <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>editPostWithId(item.id)}><TiEdit size={20}/></RaisedButton> }
               </div>
-              <span className='comment-delete button' onClick={()=>deleteComment(item.id)}><TiDelete size={17}/></span>
+              {this.props.enableEdit && <RaisedButton className='comment-delete' style={{minWidth: '25px'}} onClick={()=>deleteComment(item.id)}><TiDelete size={17}/></RaisedButton>}
             </div>
             ))}
       </div>

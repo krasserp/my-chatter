@@ -8,6 +8,7 @@ import Comments from './Comments'
 import AddEditComment from './AddEditComment'
 import Modal from 'react-modal'
 
+import RaisedButton from 'material-ui/RaisedButton'
 
 const mapStateToProps = ({comments}) => {
 
@@ -138,9 +139,9 @@ class PostDetail extends Component{
                   <span className='post-title'>{title}</span>
                   <span className='post-score'>{voteScore > 0 ? '+'+voteScore : +voteScore} </span>
                   <span className='post-date'>{formatTimeStamp(timestamp)}</span>
-                  <span className="post-comments button" onClick={()=>this.showHide()}>{commentsCount[id] ? commentsCount[id]: 0 } <TiMessages size={15}/></span>
+                  <RaisedButton className="small-btn" style={{minWidth: '50px'}} onClick={()=>this.showHide()}>{commentsCount[id] ? commentsCount[id]: 0 } <TiMessages size={15}/></RaisedButton>
                   <span className='post-author'>{author}</span>
-                  <span className='post-share button' onClick={()=>this.openModal(id, category+'/'+id)}> <FaShareAlt size={20} /></span>
+                  <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>this.openModal(id, category+'/'+id)}> <FaShareAlt size={20} /></RaisedButton>
                 </div>
 
                 <div className='post-details'>
@@ -148,13 +149,13 @@ class PostDetail extends Component{
                 </div>
 
                 <div className='post-button-info'>
-                  <span className='post-score-vote-up button' onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
-                  <span className='post-score-vote-down button' onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></span>
-                  <span className='post-edit button'onClick={()=>editPost()}><TiEdit size={20}/></span>
-                  <span className='post-comment button' onClick={()=>this.openModal(id)}>Comment</span>
+                  <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></RaisedButton>
+                  <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></RaisedButton>
+                  <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>editPost()}><TiEdit size={20}/></RaisedButton>
+                  <RaisedButton className="small-btn" onClick={()=>this.openModal(id)}>Comment</RaisedButton>
                 </div>
-                {commentsCount[id] > 0 && this.state.showComments &&  <Comments postId={id} openEdit={this.editCommentWithId(id)} />}
-                <span className='post-delete button' onClick={()=>deletePost(id)}><TiDelete size={20}/></span>
+                {commentsCount[id] > 0 && this.state.showComments &&  <Comments enableEdit={true} postId={id} openEdit={this.editCommentWithId(id)} />}
+                <RaisedButton className="post-delete" style={{minWidth: '30px'}} onClick={()=>deletePost(id)}><TiDelete size={20}/></RaisedButton>
 
                 </div>
               }

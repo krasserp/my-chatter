@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted} from 'react-icons/lib/ti'
 import {connect} from 'react-redux'
 import {sortItemsBy,sortCommentsBy} from '../actions/comments'
-
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 const mapStateToProps = ({sortOrder,commentsOrder}) => {
@@ -57,10 +57,11 @@ class SortOrder extends Component{
 
             <div className='nav-item'>
                 <span>{this.props.title}</span>
-                <ul className='order-by'>
-                  <li onClick={()=>this.changeOrder('timestamp')}> {(timeUp.active && timeUp.order==='' && <TiArrowSortedUp size={15}  />) || (timeUp.active && timeUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Date</li>
-                  <li onClick={()=>this.changeOrder('voteScore')} >{(scoreUp.active && scoreUp.order==='' && <TiArrowSortedUp size={15}  />) || (scoreUp.active && scoreUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Score</li>
-                </ul>
+
+                <div>
+                  <RaisedButton onClick={()=>this.changeOrder('timestamp')}> {(timeUp.active && timeUp.order==='' && <TiArrowSortedUp size={15}  />) || (timeUp.active && timeUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Date</RaisedButton>
+                  <RaisedButton onClick={()=>this.changeOrder('voteScore')} >{(scoreUp.active && scoreUp.order==='' && <TiArrowSortedUp size={15}  />) || (scoreUp.active && scoreUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Score</RaisedButton>
+                </div>
             </div>
 
             )

@@ -4,10 +4,9 @@ import {TiThumbsDown,TiThumbsUp,TiMessages} from 'react-icons/lib/ti'
 import {putPostVote} from '../actions/posts'
 import {connect} from 'react-redux'
 import Comments from './Comments'
-import AddEditComment from './AddEditComment'
-import Modal from 'react-modal'
 import { Link } from 'react-router-dom'
-
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton';
 
 const mapStateToProps = ({comments}) => {
 
@@ -15,6 +14,7 @@ const mapStateToProps = ({comments}) => {
     comments
   }
 }
+
 
 
 class Post extends Component{
@@ -82,42 +82,15 @@ class Post extends Component{
 
             <div className='post' key={id} id={'id_'+id}>
 
-            <Modal
-                isOpen={this.state.modalIsOpen}
-                onRequestClose={()=>this.closeModal()}
-                className="Modal"
-                overlayClassName="Overlay"
-                contentLabel="New/Edit comment modal"
-              >
-
-                {!this.state.shareLink ?
-
-                  <AddEditComment
-                  commentId={this.state.editCommentId}
-                  parentId={this.state.parentId}
-                  closeModal={()=>this.closeModal()}
-                   />
-                :
-                  <div>
-                  Copy the link below to share this post:<br/>
-                  {this.state.shareLink}
-                  </div>
-
-                }
-
-            </Modal>
-
-
-
               <div className='post-top-info'>
                 <span className='post-title post-link'>
                   <Link to={'/'+category+'/'+id}>
-                    {title}
+                    <FlatButton style={{textDecoration:'underline'}} label={title} />
                   </Link>
                 </span>
                 <span className='post-score'>{voteScore > 0 ? '+'+voteScore : +voteScore} </span>
                 <span className='post-date'>{formatTimeStamp(timestamp)}</span>
-                <span className="post-comments button" onClick={()=>this.showHide()}>{commentsCount[id] ? commentsCount[id]: 0 } <TiMessages size={15}/></span>
+                <FlatButton style={{textDecoration:'underline'}} onClick={()=>this.showHide()}>{commentsCount[id] ? commentsCount[id]: 0 } <TiMessages size={15}/></FlatButton>
                 <span className='post-author'>{author}</span>
               </div>
 
@@ -134,11 +107,10 @@ class Post extends Component{
               </div>
 
               <div className='post-button-info'>
-                <span className='post-score-vote-up button' onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></span>
-                <span className='post-score-vote-down button' onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></span>
-                <span className='post-comment button' onClick={()=>this.openModal(id)}>Comment</span>
+                <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></RaisedButton>
+                <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></RaisedButton>
               </div>
-              {commentsCount[id] > 0 && this.state.showComments &&  <Comments postId={id} openEdit={this.editCommentWithId(id)} />}
+              {commentsCount[id] > 0 && this.state.showComments &&  <Comments enableEdit={false} postId={id} openEdit={this.editCommentWithId(id)} />}
             </div>
             )
     }
