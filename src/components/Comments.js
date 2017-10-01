@@ -3,20 +3,11 @@ import {formatTimeStamp} from '../utils/helpers'
 import {TiThumbsDown,TiThumbsUp,TiEdit,TiDelete} from 'react-icons/lib/ti'
 import {connect} from 'react-redux'
 import sortBy from 'sort-by'
-import {putCommentVote,deleteCommentId} from '../actions'
+import {putCommentVote,deleteCommentId} from '../actions/comments'
 import SortOrder from './SortOrder'
 
 
 
-const mapDispatchToProps = (dispatch) =>({
-
-  setVote: (id, vote) => dispatch(putCommentVote(id,vote)),
-  deleteComment: (id) => dispatch(deleteCommentId(id))
-
-})
-
-
-// redux mapping
 const mapStateToProps = ({comments,commentsOrder}) => {
 
   return {
@@ -33,10 +24,10 @@ class Comments extends Component{
 
   render(){
 
-    const upDownVote = this.props.setVote
+    const upDownVote = this.props.putCommentVote
     const sortOrder = this.props.commentsOrder
     const comments = this.props.comments
-    const deleteComment = this.props.deleteComment
+    const deleteComment = this.props.deleteCommentId
     const commentsMapped =[]
 
     for(let c in comments){
@@ -90,4 +81,4 @@ class Comments extends Component{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Comments);
+export default connect(mapStateToProps,{putCommentVote,deleteCommentId})(Comments);

@@ -4,67 +4,19 @@ import sortBy from 'sort-by'
 import Post from './Post'
 
 
-
-import AddEditPost from './AddEditPost'
-import Modal from 'react-modal'
-
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    width                 : '450px',
-    maxWidth              :'100%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
-
-
-
-// redux mapping
 const mapStateToProps = ({categories,posts,sortOrder}) => {
-  //console.log('logging cats ', categories)
 
   return {
     categories,
     posts,
     sortOrder,
-
   }
+
 }
 
 
 
 class Posts extends Component{
-
-  state={
-      modalIsOpen: false,
-      editPostId : null,
-    }
-
-
-  openModal() {
-      this.setState({modalIsOpen: true});
-    }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
-
-
-
-  editPostWithId(id){
-    this.setState({
-      editPostId:id,
-      modalIsOpen:true
-    })
-
-
-  }
-
 
 
   render(){
@@ -91,20 +43,6 @@ class Posts extends Component{
       <div>
 
 
-      <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={()=>this.closeModal()}
-          style={customStyles}
-          contentLabel="New posts holder"
-        >
-
-          <AddEditPost postId={this.state.editPostId} closeModal={()=>this.closeModal()}/>
-
-        </Modal>
-
-
-
-
           {displayPosts.map((item) => (
               <Post key={item.id}
                     id={item.id}
@@ -114,7 +52,6 @@ class Posts extends Component{
                     author={item.author}
                     body={item.body}
                     category={item.category}
-                    goto ={this.props.goto === item.id ?this.props.goto : false }
                     openEdit={()=>this.editPostWithId(item.id)}/>
             ))}
 

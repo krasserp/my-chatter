@@ -1,18 +1,11 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {setCategory,postPost,updatePost} from '../actions'
+import {setCategory} from '../actions/categories'
+import {postPost,updatePost} from '../actions/posts'
 import sortBy from 'sort-by'
 import {capitalize} from '../utils/helpers'
 import uuidv1 from 'uuid/v1'
 import {Route} from 'react-router-dom'
-
-
-
-const mapDispatchToProps = (dispatch) =>({
-  fetchCats : (data) => dispatch(setCategory(data)),
-  putPost: (data) => dispatch(postPost(data)),
-  updatePost: (id,data) => dispatch(updatePost(id,data))
-})
 
 
 
@@ -22,7 +15,6 @@ const mapStateToProps = ({categories, posts}) => {
     posts
   }
 }
-
 
 
 class AddEditPost extends Component{
@@ -45,7 +37,7 @@ class AddEditPost extends Component{
 
             console.log(postBody)
 
-            this.props.putPost(postBody)
+            this.props.postPost(postBody)
                 .then(()=>{
                     this.title.value = ''
                     this.body.value =''
@@ -76,7 +68,7 @@ class AddEditPost extends Component{
 
 
     onSelect(){
-        this.props.fetchCats(this.category.value)
+        this.props.setCategory(this.category.value)
     }
 
     render(){
@@ -108,13 +100,13 @@ class AddEditPost extends Component{
                     <select name="category"
                         value={selValue}
                         ref={select => this.category = select}
-                        onChange={()=>{history.push(this.category.value)}}
+                        onChange={()=>{history.push('/'+this.category.value)}}
                         disabled={postId!==undefined}
                         >
 
                         {categories.map((item,i)=>(
 
-                            <option key={i} value={item.name} disabled={item.name==='all'}  >{capitalize(item.name)}</option>
+                            <option key={i} value={item.name} disabled={item.name==='all'} >{capitalize(item.name)}</option>
 
                         ))}
 
@@ -164,4 +156,4 @@ class AddEditPost extends Component{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(AddEditPost);
+export default connect(mapStateToProps,{postPost,updatePost,setCategory})(AddEditPost);

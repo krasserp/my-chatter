@@ -10,7 +10,8 @@ import {Provider} from 'react-redux'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
-import {fetchCategory,fetchAllPosts} from './actions'
+import {fetchCategory} from './actions/categories'
+import {fetchAllPosts} from './actions/posts'
 
 import {
     BrowserRouter as Router,

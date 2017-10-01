@@ -9,9 +9,11 @@
     "react-icons": "^2.2.5",
     "react-modal": "^2.3.2",
     "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "scroll-to-element": "^2.0.0",
     "sort-by": "^1.2.0",
     "unix-timestamp": "^0.2.0",
     "uuid": "^3.1.0"

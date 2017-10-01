@@ -14,6 +14,15 @@ a{
 
 }
 
+.post-link{
+    a{
+        color: #202020;
+        &:hover{
+            color:#525652;
+        }
+    }
+}
+
 .chatter-app{
     margin: auto;
     max-width: 90vw;
@@ -123,6 +132,13 @@ nav{
         padding-bottom: 0px;
         border-bottom: 0px;
     }
+
+    .post-link{
+        text-decoration: underline;
+        &:hover{
+            color:#111111;
+        }
+    }
 }
 
 .post.comments{
@@ -170,6 +186,7 @@ nav{
 
 .post-delete, .comment-delete{
     max-width: 20px;
+    float: right;
     align-self: flex-end;
     color:red;
 }
@@ -187,3 +204,35 @@ nav{
      animation: pulse 1s infinite alternate;
 
 }
+
+// modal
+
+.Modal{
+    position : absolute;
+    top        : 50%;
+    left       : 50%;
+    right      : auto;
+    bottom     : auto;
+    margin-right: -50%;
+    width      : 450px;
+    max-width   : 100%;
+    transform  : translate(-50%, -50%);
+}
+
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent; //#202020;
+    //opacity:0.95;
+  }
+
+
+  .share-link{
+    background-color:#fff;
+    padding:2rem;
+    border-radius:0.5rem;
+    border:1px dotted #202020;
+  }

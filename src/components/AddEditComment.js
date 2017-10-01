@@ -1,15 +1,7 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {postComment,updateComment} from '../actions'
+import {postComment,updateComment} from '../actions/comments'
 import uuidv1 from 'uuid/v1'
-
-
-
-const mapDispatchToProps = (dispatch) =>({
-  putComment: (data) => dispatch(postComment(data)),
-  updateComment: (id,data) => dispatch(updateComment(id,data))
-})
-
 
 
 const mapStateToProps = ({comments}) => {
@@ -17,7 +9,6 @@ const mapStateToProps = ({comments}) => {
     comments
   }
 }
-
 
 
 class AddEditComment extends Component{
@@ -37,7 +28,7 @@ class AddEditComment extends Component{
                 parentId: this.props.parentId
             }
 
-            this.props.putComment(postBody)
+            this.props.postComment(postBody)
                 .then(()=>{
                     this.body.value =''
                     this.author.value = ''
@@ -117,4 +108,4 @@ class AddEditComment extends Component{
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(AddEditComment);
+export default connect(mapStateToProps,{postComment,updateComment})(AddEditComment);

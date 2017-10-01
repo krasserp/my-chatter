@@ -1,41 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import CategoriesNav from './CategoriesNav'
 import Posts from './Posts'
 import SortOrder from './SortOrder'
 import sortBy from 'sort-by'
-import {setCategory, getCommentsById} from '../actions'
+import {setCategory} from '../actions/categories'
+import {getCommentsById} from '../actions/comments'
 import {connect} from 'react-redux'
-
-
-
-
+import PostDetail from './PostDetail'
 import AddEditPost from './AddEditPost'
 import Modal from 'react-modal'
 
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    width                 : '450px',
-    maxWidth              :'100%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
-
-
-
-const mapDispatchToProps = (dispatch) =>({
-  fetchCats : (data) => dispatch(setCategory(data)),
-  fetchComments: (id ) => dispatch(getCommentsById(id)),
-
-})
-
-
-// redux mapping
 const mapStateToProps = ({categories, posts}) => {
   return {
     categories,
@@ -44,18 +19,15 @@ const mapStateToProps = ({categories, posts}) => {
 }
 
 
-
-
 class App extends Component {
 
-
-
   state={
-    modalIsOpen: false
+    modalIsOpen: false,
+    newPost: false
   }
 
   onSelect(data){
-    this.props.fetchCats(data)
+    this.props.setCategory(data)
   }
 
   openModal() {
@@ -64,7 +36,21 @@ class App extends Component {
 
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({
+      modalIsOpen: false,
+      newPost:false
+    });
+  }
+
+  createNewPost(){
+    this.setState({newPost:true})
+    this.openModal()
+  }
+
+  editPostWithId(id){
+    this.setState({
+      modalIsOpen:true
+    })
   }
 
 
@@ -74,11 +60,10 @@ class App extends Component {
 
     this.props.categories.map((cat)=>{
       if(urlCat === cat.path && !cat.active){
-        this.props.fetchCats(urlCat)
+        this.props.setCategory(urlCat)
       }
       return true
     })
-
 
   }
 
@@ -94,28 +79,28 @@ class App extends Component {
 
   render() {
 
+    let {postId,cat} = this.props.match.params
 
     this.props.posts.forEach((el)=> {
-      this.props.fetchComments(el.id)
+      this.props.getCommentsById(el.id)
     })
 
-
+    let currentPost = postId && cat !== 'all' ? this.props.posts.filter((item)=>item.id === postId)[0] : null
 
     let categories = this.props.categories.sort(sortBy('name'))
 
     return (
 
-
       <div className='chatter-app'>
 
-      <Modal
+        <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={()=>this.closeModal()}
-          style={customStyles}
-          contentLabel="New posts holder"
-        >
+          className="Modal"
+          overlayClassName="Overlay"
+          contentLabel="New posts holder">
 
-          <AddEditPost closeModal={()=>this.closeModal()}/>
+          <AddEditPost postId={currentPost != null && !this.state.newPost ? currentPost.id : undefined} closeModal={()=>this.closeModal()}/>
 
         </Modal>
 
@@ -124,43 +109,47 @@ class App extends Component {
 
         <nav>
 
-        <div className='nav-item'>
-          <span>Categories</span>
-          <CategoriesNav categories={categories} />
-        </div>
+          <div className='nav-item'>
+            <span>Categories</span>
+            <CategoriesNav categories={categories} />
+          </div>
 
           <SortOrder title="Sort posts by" type="posts" />
 
           <div className='nav-item'>
-            <button className='new-post-btn button' onClick={()=>this.openModal()}>Add new post</button>
+            <button className='new-post-btn button' onClick={()=>this.createNewPost()}>Add new post</button>
           </div>
 
         </nav>
 
 
-
         <div className='post-list'>
 
-          <Posts goto={this.props.match.params.postId} />
+        {currentPost != null ?
+
+          <PostDetail key={currentPost.id}
+                      id={currentPost.id}
+                      title={currentPost.title}
+                      voteScore={currentPost.voteScore}
+                      timestamp={currentPost.timestamp}
+                      author={currentPost.author}
+                      body={currentPost.body}
+                      category={currentPost.category}
+                      deleted={currentPost.deleted}
+                      openEdit={()=>this.editPostWithId(currentPost.id)}/>
+          :
+            <Posts />
+
+        }
 
         </div>
 
-
       </div>
-
-
-
-
 
     )
   }
 }
 
 
-
-
-
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(mapStateToProps,{setCategory,getCommentsById})(App);
 

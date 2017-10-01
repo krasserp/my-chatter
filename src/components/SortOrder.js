@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted} from 'react-icons/lib/ti'
 import {connect} from 'react-redux'
-import {sortItemsBy,sortCommentsBy} from '../actions'
+import {sortItemsBy,sortCommentsBy} from '../actions/comments'
 
 
 
@@ -12,19 +12,13 @@ const mapStateToProps = ({sortOrder,commentsOrder}) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) =>({
-    changeOrder : (order) => dispatch(sortItemsBy(order)),
-    changeCommentsOrder : (order) => dispatch(sortCommentsBy(order))
-})
-
-
 class SortOrder extends Component{
 
 
     changeOrder(data){
+
         let newOrder
-        //console.log(this.props.sortOrder, 'currently')
-        //console.log(data, ' supplied');
+
         if(this.props.type==='posts'){
             newOrder = this.props.sortOrder.map(item=>{
                 item.active = item.map === data
@@ -32,11 +26,10 @@ class SortOrder extends Component{
                     item.order = item.order === '' ? '-' : ''
                 }
 
-
                 return item
             })
 
-            this.props.changeOrder(newOrder)
+            this.props.sortItemsBy(newOrder)
         }
 
         if(this.props.type==='comments'){
@@ -50,7 +43,7 @@ class SortOrder extends Component{
                 return item
             })
 
-            this.props.changeCommentsOrder(newOrder)
+            this.props.sortCommentsBy(newOrder)
         }
 
     }
@@ -62,25 +55,19 @@ class SortOrder extends Component{
 
         return(
 
-
             <div className='nav-item'>
-            <span>{this.props.title}</span>
-            <ul className='order-by'>
-              <li onClick={()=>this.changeOrder('timestamp')}> {(timeUp.active && timeUp.order==='' && <TiArrowSortedUp size={15}  />) || (timeUp.active && timeUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Date</li>
-              <li onClick={()=>this.changeOrder('voteScore')} >{(scoreUp.active && scoreUp.order==='' && <TiArrowSortedUp size={15}  />) || (scoreUp.active && scoreUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Score</li>
-            </ul>
-          </div>
-
-
+                <span>{this.props.title}</span>
+                <ul className='order-by'>
+                  <li onClick={()=>this.changeOrder('timestamp')}> {(timeUp.active && timeUp.order==='' && <TiArrowSortedUp size={15}  />) || (timeUp.active && timeUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Date</li>
+                  <li onClick={()=>this.changeOrder('voteScore')} >{(scoreUp.active && scoreUp.order==='' && <TiArrowSortedUp size={15}  />) || (scoreUp.active && scoreUp.order==='-' && <TiArrowSortedDown size={15}  />) || <TiArrowUnsorted size={15}  />} Score</li>
+                </ul>
+            </div>
 
             )
-
-
 
     }
 
 
-
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(SortOrder)
+export default connect(mapStateToProps,{sortItemsBy,sortCommentsBy})(SortOrder)
