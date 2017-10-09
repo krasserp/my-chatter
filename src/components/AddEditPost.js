@@ -35,7 +35,6 @@ class AddEditPost extends Component{
                 category: this.category.value
             }
 
-            console.log(postBody)
 
             this.props.postPost(postBody)
                 .then(()=>{
@@ -75,6 +74,7 @@ class AddEditPost extends Component{
 
         let {categories,posts,postId}  = this.props
         let thisPost,selValue
+
 
         categories = categories.sort(sortBy('name'))
 

@@ -28,8 +28,5 @@ export const fetchCategory = () => dispatch => (
                   fetchedInitalState.push({name:'all', path:'all',active:true})
                   dispatch(updateCategory(fetchedInitalState))
                 }
-
             )
-
-
     )

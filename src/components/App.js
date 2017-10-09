@@ -33,7 +33,8 @@ class App extends Component {
 
   state={
     modalIsOpen: false,
-    newPost: false
+    newPost: false,
+    listPostId: undefined
   }
 
   onSelect(data){
@@ -48,8 +49,9 @@ class App extends Component {
   closeModal() {
     this.setState({
       modalIsOpen: false,
-      newPost:false
-    });
+      newPost:false,
+      listPostId:undefined
+    })
   }
 
   createNewPost(){
@@ -57,8 +59,10 @@ class App extends Component {
     this.openModal()
   }
 
+
   editPostWithId(id){
     this.setState({
+      listPostId:id,
       modalIsOpen:true
     })
   }
@@ -89,13 +93,18 @@ class App extends Component {
 
   render() {
 
+
     let {postId,cat} = this.props.match.params
+
 
     this.props.posts.forEach((el)=> {
       this.props.getCommentsById(el.id)
     })
 
     let currentPost = postId && cat !== 'all' ? this.props.posts.filter((item)=>item.id === postId)[0] : null
+
+    postId = postId !== undefined ? postId : this.state.listPostId
+
 
     let categories = this.props.categories.sort(sortBy('name'))
 
@@ -110,7 +119,7 @@ class App extends Component {
           overlayClassName="Overlay"
           contentLabel="New posts holder">
 
-          <AddEditPost postId={currentPost != null && !this.state.newPost ? currentPost.id : undefined} closeModal={()=>this.closeModal()}/>
+          <AddEditPost postId={postId} closeModal={()=>this.closeModal()}/>
 
         </Modal>
 
@@ -148,7 +157,9 @@ class App extends Component {
                       deleted={currentPost.deleted}
                       openEdit={()=>this.editPostWithId(currentPost.id)}/>
           :
-            <Posts />
+            <Posts
+              openEdit={(id)=>this.editPostWithId(id)}
+             />
 
         }
 

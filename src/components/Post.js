@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {formatTimeStamp} from '../utils/helpers'
-import {TiThumbsDown,TiThumbsUp,TiMessages} from 'react-icons/lib/ti'
-import {putPostVote} from '../actions/posts'
+import {TiThumbsDown,TiThumbsUp,TiMessages,TiDelete,TiEdit} from 'react-icons/lib/ti'
+import {putPostVote,deletePostId} from '../actions/posts'
 import {connect} from 'react-redux'
 import Comments from './Comments'
 import { Link } from 'react-router-dom'
@@ -21,7 +21,6 @@ class Post extends Component{
 
     state ={
         showComments : false,
-        modalIsOpen: false,
         editCommentId: null,
         parentId: null
     }
@@ -38,27 +37,13 @@ class Post extends Component{
     }
 
 
-    openModal(postId) {
-
-      this.setState({
-        modalIsOpen: true,
-        parentId: postId
-      })
-
-    }
-
-    closeModal() {
-      this.setState({modalIsOpen: false,editCommentId: null});
-    }
-
 
     editCommentWithId(postId){
 
       return (id) => {
           this.setState({
             editCommentId:id,
-            parentId:postId,
-            modalIsOpen:true
+            parentId:postId
           })
 
       }
@@ -70,6 +55,8 @@ class Post extends Component{
 
         const {id,title,voteScore,timestamp,author,comments,body,category} = this.props
         const upDownVote = this.props.putPostVote
+        const deletePost = this.props.deletePostId
+        const editPost = this.props.openEdit
         let commentsCount = {}
 
         for (let c in comments){
@@ -109,8 +96,10 @@ class Post extends Component{
               <div className='post-button-info'>
                 <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'upVote'})}><TiThumbsUp size={20}/></RaisedButton>
                 <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>upDownVote(id,{option:'downVote'})}alt="Edit" title="edit"><TiThumbsDown size={20}/></RaisedButton>
+                <RaisedButton className="small-btn" style={{minWidth: '30px'}} onClick={()=>editPost(id)}><TiEdit size={20}/></RaisedButton>
               </div>
               {commentsCount[id] > 0 && this.state.showComments &&  <Comments enableEdit={false} postId={id} openEdit={this.editCommentWithId(id)} />}
+              <RaisedButton className="post-delete" style={{minWidth: '30px'}} onClick={()=>deletePost(id)}><TiDelete size={20}/></RaisedButton>
             </div>
             )
     }
@@ -119,4 +108,4 @@ class Post extends Component{
 
 
 
-export default connect(mapStateToProps,{putPostVote})(Post);
+export default connect(mapStateToProps,{putPostVote,deletePostId})(Post);
