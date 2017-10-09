@@ -53,7 +53,7 @@ class Posts extends Component{
                     author={item.author}
                     body={item.body}
                     category={item.category}
-                    openEdit={()=>{ console.log(item.id);this.props.openEdit(item.id)}} />
+                    openEdit={()=>{this.props.openEdit(item.id)}} />
             ))}
 
 
